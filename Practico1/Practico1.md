@@ -7,7 +7,7 @@ Las violaciones posibles a la integridad referencial ocurririan debido a la rela
 Las restricciones que utilizaria serian:
 
 ```SQL
-> ON DELETE RESTRICT;
+ON DELETE RESTRICT;
 # Lanza un error si se desea eliminar un estudiante que esta inscripto en un curso
 ``` 
 
