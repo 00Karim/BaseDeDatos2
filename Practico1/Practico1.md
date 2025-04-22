@@ -134,11 +134,36 @@ Resultado:
 ### PUNTO 7
 
 
--- Agregar codigo
+PASO 1: Crear usuario.
 
+```SQL
+CREATE USER 'analista'@'localhost' IDENTIFIED BY 'contrasenia';
+```
 
-Al crear un usuario analista con unicamente los permisos de conexion a la base de datos y querer hacer una consulta SELECT, este es el error que se presenta: Error Code: 1142. SELECT command denied to user 'analista'@'localhost' for table 'productos'
+PASO 2: Dar permisos unicamente de select en ciertas tablas con los siguientes codigos.
 
+```SQL
+GRANT SELECT ON productos TO 'analista'@'localhost';
+GRANT SELECT ON usuarios TO 'analista'@'localhost';
+```
+
+PASO 3: Probar si funciona haciendo select en otra tabla.
+
+```SQL
+SELECT * FROM cuenta_banco;
+```
+
+PASO 4: Vemos el error como evidencia que en efecto funcionan las restricciones.
+
+```SQL
+Error Code: 1142. SELECT command denied to user 'analista'@'localhost' for table 'cuenta_banco'
+```
+
+Al crear un usuario analista con unicamente los permisos de conexion a la base de datos y querer hacer una consulta SELECT, este es el error que se presenta: 
+
+```SQL
+Error Code: 1142. SELECT command denied to user 'analista'@'localhost' for table 'productos'
+```
 
 ### PUNTO 8
 
