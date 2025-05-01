@@ -59,15 +59,29 @@ Consigna:
 
 ##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
 
+<p align="center">
+    <img src="img/ejercicio6SS.png"/>
+</p>
+
 ### Ejercicio 7
 Consigna:
 *Crea una colección `cursos` y una colección `alumnos`. Luego inserta documentos donde los alumnos tengan una lista de  `id_curso` referenciando a los cursos.*
 
+Primero vamos a crear la coleccion cursos para poder extraer el id de cada documento
+
+##### Captura con el primer paso:
+
 <p align="center">
-    <img src="img/"/>
+    <img src="img/ejercicio7SSa.png"/>
 </p>
 
-##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
+Despues de eso ya podemos crear la coleccion alumnos con cada documento teniendo un campo `curso` que haga referencia al id del curso.
+
+##### Captura con el segundo y ultimo paso:
+
+<p align="center">
+    <img src="img/ejercicio7SSb.png"/>
+</p>
 
 ### Ejercicio 8
 Consigna:

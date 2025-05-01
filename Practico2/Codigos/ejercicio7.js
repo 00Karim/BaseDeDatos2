@@ -1,0 +1,7 @@
+use escuela;
+
+db.alumnos.insertMany([
+{nombre: "Mario", apellido: "Santos", id_curso: ObjectId('6813ee47621ce50860b5f899')},
+{nombre: "Pedro", apellido: "Ferreira", id_curso: ObjectId('6813ee47621ce50860b5f89b')},
+{nombre: "Patricio", apellido: "Fernandez", id_curso: ObjectId('6813ee47621ce50860b5f89c')}
+]);
