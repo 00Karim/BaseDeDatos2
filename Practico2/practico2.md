@@ -13,19 +13,15 @@ Consigna:
     <img src="img/ejercicio1SS.png"/>
 </p>
 
-### Extra
-
-Agregamos datos a la coleccion empresa asi se pueden visualizar mejor las distintas selecciones de datos o cualquier cambio
-
-<p align="center">
-<img src="img/extraSS.png">
-</p>
-
 ### Ejercicio 2
 Consigna:
 *Consulta todos los empleados cuya edad esté entre 25 y 40 años. Usa operadores relacionales y lógicos.*
 
 ##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
+
+<p align="center">
+    <img src="img/ejercicio2SS.png"/>
+</p>
 
 ### Ejercicio 3
 Consigna:
@@ -33,17 +29,29 @@ Consigna:
 
 ##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
 
+<p align="center">
+    <img src="img/ejercicio3SS.png"/>
+</p>
+
 ### Ejercicio 4
 Consigna:
 *Agrega un campo direccion que incluya `calle`, `ciudad` y `codigo_postal`.*
 
 ##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
 
+<p align="center">
+    <img src="img/ejercicio4SS.png"/>
+</p>
+
 ### Ejercicio 5
 Consigna:
 *Dada una colección `ventas` con campos `producto`, `cantidad` y `precio_unitario`, calcula el total de ventas por producto usando `$group` y `$sum`.*
 
 ##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
+
+<p align="center">
+    <img src="img/ejercicio5SS.png"/>
+</p>
 
 ### Ejercicio 6
 Consigna:
@@ -55,6 +63,10 @@ Consigna:
 Consigna:
 *Crea una colección `cursos` y una colección `alumnos`. Luego inserta documentos donde los alumnos tengan una lista de  `id_curso` referenciando a los cursos.*
 
+<p align="center">
+    <img src="img/"/>
+</p>
+
 ##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
 
 ### Ejercicio 8
@@ -62,6 +74,10 @@ Consigna:
 *Realiza una agregación donde se combinen los datos de alumnos y cursos usando `$lookup`.*
 
 ##### A continuacion adjuntamos una captura con los comandos ejecutados en la terminal:
+
+<p align="center">
+    <img src="img/"/>
+</p>
 
 ### Ejercicio 9
 Consigna:
