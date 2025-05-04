@@ -1,4 +1,4 @@
-use empresa;
+use ('empresa');
 
 db.clientes.insertMany([
 	{nombre: "Mario", apellido: "Larson"},
