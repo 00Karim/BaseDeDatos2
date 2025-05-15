@@ -97,6 +97,16 @@ Consigna:
 Consigna:
 *Describe con tus palabras las ventajas de usar un Replica Set y qué beneficios aporta el sharding en una base de datos de alto volumen.*
 
+La ventaja principal de usar replica set es la rapida disponibilidad de los backups, si el primario falla entonces el que le siga puede
+tomar su lugar instantaneamente, desde el punto de vista de un usuario nisiquiera se habria notado que ocurrio ese evento. Por otro lado, 
+usando Replica Set podemos tener unos cuantos backups de la misma base por lo que seria muchisimo mas dificil que el software que dependa
+de la base de datos quede sin funcionar. Otra ventaja que tiene Replica Set es el hecho que el backup esta siendo creado en tiempo real
+entonces cualquier modificacion que se haga es guardada instantaneamente por lo cual es casi imposible perder informacion si se cae
+la base de datos primaria.
+
+En una base de datos de alto volumen, el sharding hace que las operaciones sean mucho mas rapidas lo cual basicamente permite extender el
+tamano de la base de datos a dimensiones gigantes sin afectar el rendimiento de las operaciones que se hagan en ella.
+
 ### Ejercicio 10
 Consigna:
 *Muestra los pasos para crear un usuario con permisos de lectura y escritura, y los comandos necesarios para hacer backup y restauración de una base de datos.*
