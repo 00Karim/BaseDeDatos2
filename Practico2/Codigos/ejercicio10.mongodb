@@ -1,0 +1,22 @@
+use('empresa')
+
+db.createUser({
+  user: "usuario_con_permisos",         
+  pwd: "contraseña",              
+  roles: [
+    {
+      role: "readWrite", db: "empresa"}
+  ]
+})
+
+// Backup y restauración
+
+// Comando para hacer un backup de la base de datos "empresa":
+// mongodump --db empresa --out /ruta/del/backup
+
+// Comando usado en la imagen: mongodump --db empresa --out /home/fede/backups
+
+// Comando para restaurar el backup:
+// mongorestore --db empresa /ruta/del/backup/nombreDeLaBaseDeDatos
+
+// Comando usado en la imagen: mongorestore --db empresa /home/fede/backups/empresa
