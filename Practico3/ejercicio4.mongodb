@@ -1,0 +1,28 @@
+// Deconstruir el array de valoraciones de productos para obtener una lista
+// plana donde cada documento contenga una valoración individual.
+
+// Luego, agrupar por puntuación y contar cuántas valoraciones hay de cada
+// puntuación.
+
+use ('tiendaOnline')
+
+db.productos.aggregate([
+    {$unwind: "$valoraciones"},
+    {$group: 
+        {
+            _id: "$valoraciones.puntuacion",
+            frecuenciaDePuntuacion: {$sum: 1}
+        }
+    },
+    {$project: 
+        {
+            _id: 1,
+            frecuenciaDePuntuacion: 1
+        }
+    },
+    {$sort:
+        {
+            frecuenciaDePuntuacion: -1
+        }
+    }
+]);

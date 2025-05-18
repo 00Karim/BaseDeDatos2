@@ -1,0 +1,45 @@
+// Calcular el precio promedio, máximo y mínimo por categoría de producto.
+// Obtener el total de ventas por país del cliente, incluyendo la cantidad 
+// de transacciones y el monto total.
+use ('tiendaOnline')
+
+// PIPELINE DE PRODUCTOS
+db.productos.aggregate([
+    {$group : {
+        _id: "$categoria",
+        precioPromedio: {$avg: "$precio"},
+        precioMasAlto: {$max: "$precio"},
+        precioMasBajo: {$min: "$precio"}
+    }},
+    {$project: {
+        _id: 1,
+        precioPromedio: 1,
+        precioMasAlto: 1,
+        precioMasBajo: 1
+    }},
+    {$sort: 
+      {
+        precioPromedio: -1,
+      }
+    }
+]);
+
+
+// PIPELINE DE VENTAS
+db.ventas.aggregate([
+  {$group: {
+    _id: "$cliente.pais",
+    ventasTotales: {$sum: "$total"},
+    cantidadTransacciones: {$sum: 1}
+  }},
+  {$project: {
+    _id: 1,
+    ventasTotales: 1,
+    cantidadTransacciones: 1
+  }},
+  {$sort: 
+    {
+      ventasTotales: -1
+    }
+  }
+])
