@@ -1,0 +1,78 @@
+// Ejercicio 1: Sistema de Gestión de Proyectos
+
+// Modelado
+
+//Crear empleados
+CREATE 
+  (ana:Empleado {nombre: 'Ana', apellido: 'Gómez'}),
+  (carlos:Empleado {nombre: 'Carlos', apellido: 'Pérez'}),
+  (lucia:Empleado {nombre: 'Lucía', apellido: 'Martínez'})
+
+//Crear departamentos
+CREATE 
+  (finanzas:Departamento {nombre: 'Finanzas'}),
+  (desarrollo:Departamento {nombre: 'Desarrollo'}),
+  (ventas:Departamento {nombre: 'Ventas'})
+
+//Relacionar empleados con departamentos
+MATCH 
+  (ana:Empleado {nombre: 'Ana'}),
+  (carlos:Empleado {nombre: 'Carlos'}),
+  (lucia:Empleado {nombre: 'Lucía'}),
+  (finanzas:Departamento {nombre: 'Finanzas'}),
+  (desarrollo:Departamento {nombre: 'Desarrollo'}),
+  (ventas:Departamento {nombre: 'Ventas'})
+CREATE 
+  (ana)-[:PERTENECE_A]->(finanzas),
+  (carlos)-[:PERTENECE_A]->(desarrollo),
+  (lucia)-[:PERTENECE_A]->(ventas)
+
+//Crear Proyectos
+CREATE 
+  (erp:Proyecto {nombre: 'Sistema ERP'}),
+  (app:Proyecto {nombre: 'Lanzamiento Nueva App'})
+
+//Asignar empleados a Proyectos
+MATCH 
+  (ana:Empleado {nombre: 'Ana'}),
+  (carlos:Empleado {nombre: 'Carlos'}),
+  (lucia:Empleado {nombre: 'Lucía'}),
+  (erp:Proyecto {nombre: 'Sistema ERP'}),
+  (app:Proyecto {nombre: 'Lanzamiento Nueva App'})
+CREATE 
+  (ana)-[:ASIGNADO_A {horas_semanales: 10}]->(erp),
+  (carlos)-[:ASIGNADO_A {horas_semanales: 20}]->(erp),
+  (carlos)-[:ASIGNADO_A {horas_semanales: 15}]->(app),
+  (lucia)-[:ASIGNADO_A {horas_semanales: 25}]->(app)
+
+//Asignar lideres a los Proyectos
+MATCH 
+  (ana:Empleado {nombre: 'Ana'}),
+  (lucia:Empleado {nombre: 'Lucía'}),
+  (erp:Proyecto {nombre: 'Sistema ERP'}),
+  (app:Proyecto {nombre: 'Lanzamiento Nueva App'})
+CREATE 
+  (ana)-[:LIDERA]->(erp),
+  (lucia)-[:LIDERA]->(app)
+
+
+// Consultas
+
+//Obtener el nombre del proyecto, su líder y los empleados asignados.
+MATCH (e:Empleado)-[:LIDERA]->(p:Proyecto)
+OPTIONAL MATCH (empleado:Empleado)-[:ASIGNADO_A]->(p)
+WHERE empleado <> e
+WITH p.nombre AS Proyecto,
+     e.nombre + ' ' + e.apellido AS Lider,
+     collect(DISTINCT empleado.nombre + ' ' + empleado.apellido) AS Empleados_Asignados
+RETURN Proyecto, Lider, Empleados_Asignados
+
+//Calcular el total de horas semanales por proyecto.
+MATCH (:Empleado)-[rel:ASIGNADO_A]->(p:Proyecto)
+RETURN p.nombre AS Proyecto, sum(rel.horas_semanales) AS Total_Horas_Semanales
+
+//Listar los empleados que trabajan en más de un proyecto.
+MATCH (e:Empleado)-[:ASIGNADO_A]->(p:Proyecto)
+WITH e, count(DISTINCT p) AS cantidad
+WHERE cantidad > 1
+RETURN e.nombre + ' ' + e.apellido AS Empleado, cantidad AS Cantidad_Proyectos

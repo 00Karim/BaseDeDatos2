@@ -1,0 +1,85 @@
+// Ejercicio 2: Biblioteca Universitaria Extendida
+
+// Modelado
+
+//Crear estudiantes
+CREATE
+  (juan:Estudiante {nombre: "Juan", apellido: "López"}),
+  (maria:Estudiante {nombre: "María", apellido: "Fernández"}),
+  (sofia:Estudiante {nombre: "Sofía", apellido: "Pérez"})
+
+//Crear carreras 
+CREATE
+  (sistemas:Carrera {nombre: "Ingeniería en Sistemas"}),
+  (letras:Carrera {nombre: "Letras"}),
+  (biologia:Carrera {nombre: "Biología"})
+
+//Relacionar carreras y estudiantes
+MATCH (juan:Estudiante {nombre: "Juan", apellido: "López"}),
+      (maria:Estudiante {nombre: "María", apellido: "Fernández"}),
+      (sofia:Estudiante {nombre: "Sofía", apellido: "Pérez"}),
+      (sistemas:Carrera {nombre: "Ingeniería en Sistemas"}),
+      (letras:Carrera {nombre: "Letras"}),
+      (biologia:Carrera {nombre: "Biología"})
+CREATE
+  (juan)-[:PERTENECE_A]->(sistemas),
+  (maria)-[:PERTENECE_A]->(letras),
+  (sofia)-[:PERTENECE_A]->(biologia);
+
+//Crear libros y sus categorias
+CREATE
+  (l1:Libro {titulo: "Algoritmos"}),
+  (l2:Libro {titulo: "Historia Universal"}),
+  (l3:Libro {titulo: "Biología Marina"}),
+  (l4:Libro {titulo: "Literatura Medieval"})
+
+CREATE
+  (cat1:Categoria {nombre: "Informática"}),
+  (cat2:Categoria {nombre: "Historia"}),
+  (cat3:Categoria {nombre: "Biología"}),
+  (cat4:Categoria {nombre: "Literatura"})
+
+CREATE
+  (l1)-[:PERTENECE_A]->(cat1),
+  (l2)-[:PERTENECE_A]->(cat2),
+  (l3)-[:PERTENECE_A]->(cat3),
+  (l4)-[:PERTENECE_A]->(cat4)
+
+//Crear prestamos
+MATCH
+  (juan:Estudiante {nombre: "Juan", apellido: "López"}),
+  (maria:Estudiante {nombre: "María", apellido: "Fernández"}),
+  (sofia:Estudiante {nombre: "Sofía", apellido: "Pérez"}),
+  (l1:Libro {titulo: "Algoritmos"}),
+  (l2:Libro {titulo: "Historia Universal"}),
+  (l3:Libro {titulo: "Biología Marina"}),
+  (l4:Libro {titulo: "Literatura Medieval"})
+CREATE
+  (juan)-[:PRESTAMO {fecha: date("2025-07-01"), estado: "Activo"}]->(l1),
+  (juan)-[:PRESTAMO {fecha: date("2025-06-20"), estado: "Devuelto"}]->(l2),
+  (maria)-[:PRESTAMO {fecha: date("2025-07-02"), estado: "Activo"}]->(l4),
+  (sofia)-[:PRESTAMO {fecha: date("2025-06-25"), estado: "Devuelto"}]->(l3),
+  (sofia)-[:PRESTAMO {fecha: date("2025-07-05"), estado: "Activo"}]->(l2);
+
+
+// Consultas
+
+//Obtener todos los libros actualmente prestados (estado "Activo" ).
+MATCH (:Estudiante)-[p:PRESTAMO {estado: "Activo"}]->(l:Libro)
+RETURN l.titulo AS Libro, p.fecha AS Fecha
+
+//Listar cuántos libros ha pedido prestado cada estudiante.
+MATCH (e:Estudiante)-[:PRESTAMO]->(:Libro)
+RETURN e.nombre + " " + e.apellido AS Estudiante, count(*) AS Cantidad_Prestamos
+
+//Mostrar las categorías con más préstamos activos
+MATCH (:Estudiante)-[p:PRESTAMO {estado: "Activo"}]->(l:Libro)-[:PERTENECE_A]->(c:Categoria)
+RETURN c.nombre AS Categoria, count(*) AS Prestamos_Activos
+ORDER BY Prestamos_Activos DESC
+
+//Encontrar los estudiantes que no tienen préstamos activos.
+MATCH (e:Estudiante)
+OPTIONAL MATCH (e)-[p:PRESTAMO {estado: "Activo"}]->(:Libro)
+WITH e, p
+WHERE p IS NULL
+RETURN e.nombre + " " + e.apellido AS Estudiante_Sin_Prestamos_Activos
