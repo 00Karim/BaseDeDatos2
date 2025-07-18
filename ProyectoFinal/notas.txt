@@ -1,0 +1,20 @@
+Funciones a Implementar
++ publicarReceta(receta) - Publicar nueva receta
++ buscarPorIngrediente(ingrediente) - Buscar recetas que contengan ingrediente
++ darLike(recetaId, usuarioId) - Dar/quitar like a receta
++ comentarReceta(recetaId, usuarioId, comentario) - Añadir comentario
++ topRecetas(limite) - Recetas mejor valoradas
+
+Funciones minimas que vamos a necesitar dentro de cada modelo
+
+comentario: 
+1 - crear comentario
+
+receta: 
+1 - crear receta
+2 - buscar receta por ingrediente
+3 - ver recetas mas piola
+
+usuario
+1 - dar like
+2 - quitar like
