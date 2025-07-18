@@ -8,7 +8,8 @@ async function probarComentar(){
         email: 'mario@test.com',
         nivel: 'Bajo',
         recetasPublicadas: 2,
-        seguidores: 0 
+        seguidores: 0,
+        contrasenia: "otraContrasenia"
     });
 
     // 2. Crear una receta

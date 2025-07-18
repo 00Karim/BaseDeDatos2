@@ -1,4 +1,3 @@
-const { text } = require("express");
 const ComentarioModel = require("../models/comentario.model")
 
 class ComentarioController{

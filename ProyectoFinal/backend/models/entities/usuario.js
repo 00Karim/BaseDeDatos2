@@ -18,6 +18,10 @@ const estructuraUsuario = new mongoose.Schema({
     },
     seguidores: {
         type: Number
+    },
+    contrasenia: {
+        type: String,
+        required: true
     }
 })
 

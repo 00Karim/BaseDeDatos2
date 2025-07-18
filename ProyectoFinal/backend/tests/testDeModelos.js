@@ -10,7 +10,8 @@ async function probarModelos(){
             email: 'juan@test.com',
             nivel: 'Avanzado',
             recetasPublicadas: 500,
-            seguidores: 1200 
+            seguidores: 1200,
+            contrasenia: "contraseniaPro"
         });
 
         // 2. Crear una receta

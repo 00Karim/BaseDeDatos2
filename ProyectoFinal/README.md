@@ -1,57 +1,25 @@
-Proyecto 3: Red Social de Recetas
+# Proyecto 3: Red Social de Recetas
 
-Descripción
+### Descripción
 Plataforma donde usuarios comparten recetas, las califican y comentan.
 
-Requerimientos
-Usuarios pueden publicar recetas con ingredientes e instrucciones
-Sistema de likes y comentarios
-Búsqueda por ingredientes o tipo de cocina
-Ranking de recetas mejor valoradas
+### Como iniciar la app
+Para iniciar la app hay que darle permisos de ejecucion al archivo iniciar.sh y luego ejecutarlo --> Esto va a hacer que se cree un contenedor de Docker que contiene el backend y luego se va a ejecutar por separado un comando que permite que usemos la terminal de nuestra computadora para ver la salida del archico ejecutado (inicio.py). Asi podemos ejecutar la UI y el back todo junto de manera simple. Se hiz asi porque dentro de docker no se puede usar una terminal aparentemente.
+**Comandos (dentro de la carpeta ProyectoFinal):**
+```chmod +x iniciar.sh```
+```./iniciar.sh``` 
 
-Estructura de Datos
-// Colección: usuarios
-{
-  _id: ObjectId,
-  nombre: "Chef Ana",
-  email: "ana@chef.com",
-  nivel: "Intermedio",
-  recetasPublicadas: 15,
-  seguidores: 234
-}
+### Posibles errores
 
-// Colección: recetas
-{
-  _id: ObjectId,
-  titulo: "Paella Valenciana",
-  descripcion: "Receta tradicional española",
-  autorId: ObjectId,
-  ingredientes: [
-    { nombre: "arroz", cantidad: "400g" },
-    { nombre: "pollo", cantidad: "1 kg" }
-  ],
-  instrucciones: ["Paso 1...", "Paso 2..."],
-  tiempoCoccion: 45,
-  dificultad: "Media",
-  tipoCocina: "Española",
-  likes: 127,
-  fechaPublicacion: ISODate
-}
+**Instancia local de mongo activa**
+```ERROR: for proyectofinal_mongodb_1  Cannot start service mongodb: driver failed programming external connectivity on endpoint proyectofinal_mongodb_1 (44e28f1d889725d8cd345fec08f7979c50c4e2bc31a930c11c9c93ec67e7922f): failed to bind port 0.0.0.0:27017/tcp: Error starting userland proxy: listen tcp4 0.0.0.0:27017: bind: address already in use```
+**Solucion:** hay que detener monogdb en la maquina local para que la app pueda usar el puerto correspondiente
+**Comando en linux:** ```sudo systemctl stop mongod```
 
-// Colección: comentarios
-{
-  _id: ObjectId,
-  recetaId: ObjectId,
-  autorId: ObjectId,
-  texto: "¡Deliciosa receta!",
-  calificacion: 5,
-  fecha: ISODate
-}
+**No se encuentra el contenedor**
+```Error response from daemon: No such container: proyectofinal_backend_1```
+**Solucion:** cuando ocurria este error simplemente borrabamos el container con el nombre proyectofinal_backend_1 y ejecutabamos iniciar.sh de nuevo. Primero tenes que identificarlo y luego borrarlo.
+**Comandos en linux:** 
+```sudo docker ps -a``` - y copia el nombre del container que sea proyectofinal_backend_1 (va a tener unos numero en frente)
+```sudo docker rm <nombre_del_container>```
 
-
-Funciones a Implementar
-+ publicarReceta(receta) - Publicar nueva receta
-+ buscarPorIngrediente(ingrediente) - Buscar recetas que contengan ingrediente
-+ darLike(recetaId, usuarioId) - Dar/quitar like a receta
-+ comentarReceta(recetaId, usuarioId, comentario) - Añadir comentario
-+ topRecetas(limite) - Recetas mejor valoradas

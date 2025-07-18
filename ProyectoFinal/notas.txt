@@ -14,7 +14,11 @@ receta:
 1 - crear receta
 2 - buscar receta por ingrediente
 3 - ver recetas mas piola
+4 - recibir like
+5 - restar like
 
 usuario
-1 - dar like
-2 - quitar like
+1 - validar credenciales
+
+front
+1 - guardar id del usuario actual en el json usuarioActual.json

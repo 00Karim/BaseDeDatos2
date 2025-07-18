@@ -1,8 +1,22 @@
 from time import sleep
+import requests
 import os
 
 def clear_terminal():
     os.system('cls' if os.name == 'nt' else 'clear') # esta funcion limpia la terminal en linux y en windows
+
+def buscarRecetaPorIngrediente():
+    print("---Buscar receta por ingrediente---")
+    ingrediente = input("Ingresa el ingrediente: ")
+    sleep(5)
+
+def verTopRecetas():
+    print("---Ver top de recetas---")
+    sleep(5)
+
+def publicarUnaReceta():
+    print("---Publicar una receta---")
+    sleep(5)
 
 while True:
     print(
@@ -12,23 +26,23 @@ while True:
             "3 - Publicar una receta\n",
             "0 - Salir\n"
         )
-    eleccion = int(input("Ingresa el numero de tu eleccion: "))
+    eleccion = input("Ingresa el numero de tu eleccion: ")
     match eleccion:
-        case 1:
-            print("Buscando por ingrediente...")
-            sleep(5)
+        case "1":
             clear_terminal()
-        case 2: 
-            print("Viendo top recetas...")
-            sleep(5)
+            buscarRecetaPorIngrediente()
             clear_terminal()
-        case 3: 
-            print("Publicando una receta...")
-            sleep(5)
+        case "2": 
             clear_terminal()
-        case 0: 
+            verTopRecetas()
+            clear_terminal()
+        case "3": 
+            clear_terminal()
+            publicarUnaReceta()
+            clear_terminal()
+        case "0": 
             print("Saliendo...")
-            sleep(5)
+            sleep(3)
             clear_terminal()
             break
         case _:
