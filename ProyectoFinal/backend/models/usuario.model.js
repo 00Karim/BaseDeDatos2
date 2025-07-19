@@ -10,6 +10,32 @@ class UsuarioModel{
             return null
         }
     }
+
+    darLike = async(recetaId, usuarioId) => {
+        try {
+            const likes = await Usuario.updateOne(
+                {_id: ObjectId(usuarioId)},
+                {$push: {recetasLikeadas: recetaId}}
+            )
+            return likes
+        } catch (error) {
+            console.log("Hubo un error agregando el like");
+            return null          
+        }
+    }
+
+    sacarLike = async(recetaId, usuarioId) => {
+        try {
+            const likes = await Usuario.updateOne(
+                {_id: ObjectId(usuarioId)},
+                {$pull: {recetasLikeadas: recetaId}}
+            )
+            return likes
+        } catch (error) {
+            console.log("Hubo un error quitando el like");
+            return null          
+        }
+    }
 }
 
 module.exports = new UsuarioModel()

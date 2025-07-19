@@ -1,11 +1,11 @@
 const express = require('express')
-const Router = express.Router()
+const router = express.Router()
 const RutasUsuario = require('./usuario.routes')
 const RutasComentario = require('./comentario.routes')
 const RutasReceta = require('./receta.routes')
 
-Router.use('usuarios', RutasUsuario)
-Router.use('comentarios', RutasComentario)
-Router.use('recetas', RutasReceta)
+router.use('/usuarios', RutasUsuario)
+router.use('/comentarios', RutasComentario)
+router.use('/recetas', RutasReceta)
 
-module.exports = Router;
+module.exports = router;
