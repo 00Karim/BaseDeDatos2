@@ -1,11 +1,14 @@
 const Comentario = require('./entities/comentario')
+const mongoose = require('mongoose')
 
 class ComentarioModel{
-    hacerComentario = async (id_receta, id_autor, texto, calificacion) => {
+    hacerComentario = async (recetaId, autorId, texto, calificacion) => {
         try {
+            const recetaObjId = new mongoose.Types.ObjectId(recetaId);
+            const autorObjId = new mongoose.Types.ObjectId(autorId);
             const comentario = await Comentario.create({
-                recetaId: id_receta,
-                autorId: id_autor,
+                recetaId: recetaObjId,
+                autorId: autorObjId,
                 texto: texto,
                 calificacion: calificacion
                 // la fecha se inserta automaticamente gracias a la funcion Date.now de mongoose

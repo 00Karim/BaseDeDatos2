@@ -1,6 +1,7 @@
 from time import sleep
 import requests
 import os
+import sys
 
 recetasLocal = [] # Esta lista la usamos para poder manipular los datos localmente sin tener que hacer muchas requests
 idUsuarioActual = "" # En esta variable guardamos el id del usuario que este ingresando a la app basandonos en las credenciales ingresadas al incio
@@ -10,6 +11,10 @@ URL_BASE = "http://localhost:3000/api"
 
 def clear_terminal():
     os.system('cls' if os.name == 'nt' else 'clear') # esta funcion limpia la terminal en linux y en windows
+
+def borrar_ultima_linea():
+    sys.stdout.write("\033[F")  
+    sys.stdout.write("\033[K")
 
 def es_integer(variable):
     try:
@@ -122,8 +127,51 @@ def quitarLike(id_receta):
         print("Hubo un error al sacar el like")
         sleep(1.5)
 
-def comentar():
-    None 
+def comentar(id_receta):
+    comentario = None
+    calificacion = None 
+    eleccion = None
+    clear_terminal()
+    while True:
+        clear_terminal()
+        print("========================================")
+        print("Comentario: Agregado correctamente ✅" if comentario else "Comentario: Esperando comentario...")
+        print("Calificacion: Agregada correctamente ✅" if calificacion else "Calificacion: Esperando calificacion...")
+        print("========================================\n") 
+        if comentario is None:
+            comentario = input("Escribe tu comentario: ")
+        elif calificacion is None:
+            while True:
+                calificacion = input("Ingresa tu calificacion (1 - 10): ")
+                if es_integer(calificacion):
+                    if int(calificacion) > 10 or int(calificacion) < 0:
+                        print("Error, tenes que ingresar un numero entre el 1 y el 10")
+                        sleep(2)
+                        borrar_ultima_linea()
+                        borrar_ultima_linea()
+                    else:
+                        break
+                else:
+                    print("Error, no valido, intenta nuevamente!")
+                    sleep(2)
+                    borrar_ultima_linea()
+                    borrar_ultima_linea()
+        else:
+            eleccion = input("Presiona enter para enviar --> ")
+        if eleccion != None:
+            data_comentario = {
+                "id_receta": id_receta,
+                "id_autor": idUsuarioActual,
+                "texto": comentario,
+                "calificacion": calificacion
+            }
+            print("Enviando...")
+            sleep(1)
+            requests.post(URL_BASE + "/comentarios/", json=data_comentario)
+            print("Enviado! ✅")
+            sleep(1)
+            break
+         
 
 def publicarUnaReceta():
     print("---Publicar una receta---")
