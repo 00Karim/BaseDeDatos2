@@ -15,7 +15,6 @@ class RecetaController{
     async buscarPorIngrediente(req, res){
         try {
             const { ingrediente } = req.params
-            console.log("INGREDIENTE: ", ingrediente) // TODO: borrar este debug
             res.status(200).json(await RecetaModel.buscarPorIngrediente(ingrediente))
         } catch (error) {
             res.status(500).json("Hubo un error del servidor: ", error.message)
@@ -26,7 +25,7 @@ class RecetaController{
         try {
             res.status(200).json(await RecetaModel.verTopRecetas())
         } catch (error) {
-            res.status(500).json("Hubo un error del servidor", error.message)
+            res.status(500).json({ error: "Hubo un error del servidor", detalle: error.message });
         }
     }
 
@@ -35,7 +34,7 @@ class RecetaController{
             const {recetaId, usuarioId} = req.body
             res.status(200).json(await RecetaModel.sumarLike(recetaId, usuarioId))
         } catch (error) {
-            res.status(500).json("Error al agregar un like", error.message)
+            res.status(500).json("Error al agregar un like - receta.controller", error.message)
         }
     }
 
@@ -44,7 +43,7 @@ class RecetaController{
             const {recetaId, usuarioId} = req.body
             res.status(200).json(await RecetaModel.restarLike(recetaId, usuarioId))
         } catch (error) {
-            res.status(500).json("Error al quitar un like", error.message)
+            res.status(500).json("Error al quitar un like - receta.controller", error.message)
         }
     }
 

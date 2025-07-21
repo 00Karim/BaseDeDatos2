@@ -24,9 +24,9 @@ const estructuraUsuario = new mongoose.Schema({
         required: true
     },
     recetasLikeadas: // agregamos este atributo para saber cuando podemos dar o sacar un like (asi no hay likes repetidos en una misma receta o asi una persona no puede restar likes a una receta que no likeo)
-        [{
-            recetaId: {type: mongoose.Schema.Types.ObjectId, ref: 'Recetas'}
-        }]
+        [
+            {type: mongoose.Schema.Types.ObjectId, ref: 'Recetas'}
+        ]
 
 })
 

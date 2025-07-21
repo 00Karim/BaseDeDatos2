@@ -4,7 +4,9 @@
 Plataforma donde usuarios comparten recetas, las califican y comentan.
 
 ### Como iniciar la app
-Para iniciar la app hay que darle permisos de ejecucion al archivo iniciar.sh y luego ejecutarlo --> Esto va a hacer que se cree un contenedor de Docker que contiene el backend y luego se va a ejecutar por separado un comando que permite que usemos la terminal de nuestra computadora para ver la salida del archico ejecutado (inicio.py). Asi podemos ejecutar la UI y el back todo junto de manera simple. Se hiz asi porque dentro de docker no se puede usar una terminal aparentemente.
+Para iniciar la app hay que darle permisos de ejecucion al archivo iniciar.sh y luego ejecutarlo --> Esto va a hacer que se cree un contenedor de Docker que contiene el backend y luego se va a ejecutar por separado un comando que permite que usemos la terminal de nuestra computadora para ver la salida del archivo ejecutado (inicio.py). Asi podemos ejecutar la UI y el back todo junto de manera simple. Se hizo asi porque dentro de docker no se puede usar una terminal aparentemente.
+Se tiene que tener en cuenta que si por alguna razon se decide salir de la app entonces la proxima vez que se quiera ejecutar va a
+ser suficiente ejecutar solo el archivo de python con el comando ```python3 frontend/inicio.py```
 **Comandos (dentro de la carpeta ProyectoFinal):**
 ```chmod +x iniciar.sh```
 ```./iniciar.sh``` 

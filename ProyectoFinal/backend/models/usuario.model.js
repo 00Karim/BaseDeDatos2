@@ -1,4 +1,5 @@
 const Usuario = require('./entities/usuario')
+const mongoose = require('mongoose')
 
 class UsuarioModel{
     validarCredenciales = async(email, contrasenia) => {
@@ -12,27 +13,31 @@ class UsuarioModel{
     }
 
     darLike = async(recetaId, usuarioId) => {
+        const usuarioObjId = new mongoose.Types.ObjectId(usuarioId);
+        const recetaObjId = new mongoose.Types.ObjectId(recetaId);
         try {
             const likes = await Usuario.updateOne(
-                {_id: ObjectId(usuarioId)},
-                {$push: {recetasLikeadas: recetaId}}
-            )
+                { _id: usuarioObjId },
+                { $push: { recetasLikeadas: recetaObjId } }
+            );
             return likes
         } catch (error) {
-            console.log("Hubo un error agregando el like");
+            console.log("Hubo un error agregando el like - usuario.model");
             return null          
         }
     }
 
     sacarLike = async(recetaId, usuarioId) => {
+        const usuarioObjId = new mongoose.Types.ObjectId(usuarioId);
+        const recetaObjId = new mongoose.Types.ObjectId(recetaId);
         try {
             const likes = await Usuario.updateOne(
-                {_id: ObjectId(usuarioId)},
-                {$pull: {recetasLikeadas: recetaId}}
-            )
+                { _id: usuarioObjId },
+                { $pull: { recetasLikeadas: recetaObjId } }
+            );
             return likes
         } catch (error) {
-            console.log("Hubo un error quitando el like");
+            console.log("Hubo un error quitando el like - usuario.model: ", error.message);
             return null          
         }
     }

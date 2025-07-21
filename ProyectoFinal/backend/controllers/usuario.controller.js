@@ -16,7 +16,7 @@ class UsuarioController{
             const {recetaId, usuarioId} = req.body
             res.status(200).json(await UsuarioModel.darLike(recetaId, usuarioId))
         } catch (error) {
-            res.status(500).json("Error al agregar un like", error.message)
+            res.status(500).json("Error al agregar un like - usuario.controller", error.message)
         }
     }
 
@@ -25,7 +25,7 @@ class UsuarioController{
             const {recetaId, usuarioId} = req.body
             res.status(200).json(await UsuarioModel.sacarLike(recetaId, usuarioId))
         } catch (error) {
-            res.status(500).json("Error al agregar un like", error.message)
+            res.status(500).json("Error al sacar un like - usuario.controller", error.message)
         }
     }
 }
