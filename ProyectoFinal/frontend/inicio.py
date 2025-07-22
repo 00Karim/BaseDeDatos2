@@ -23,7 +23,7 @@ def es_integer(variable):
     except ValueError:
         return False
 
-def printRecetas(datos, ingrediente = None): # muestra algunos datos de las recetas
+def printRecetas(datos, ingrediente = None): # muestra algunos datos de las recetas, si se ingresa una variable ingredientes entonces el titulo va cambiar
     clear_terminal()
     opcion = 1
     global recetasLocal
@@ -43,7 +43,7 @@ def printRecetas(datos, ingrediente = None): # muestra algunos datos de las rece
         print("============================\n")
 
 def printReceta(recetaElegida): # muestra todos los datos de una receta y ademas nos da la opcion de dar like o comentar
-    if recetaElegida != 0: #chequeamos que el usuario no haya elegido salir 
+    if recetaElegida != "0": #chequeamos que el usuario no haya elegido salir 
         if es_integer(recetaElegida): # chequeamos que su input se pueda convertir a int, sino le mostramos un error
             if int(recetaElegida) < 0 or int(recetaElegida) - 1 > len(recetasLocal): # si ingreso un numero menor a 0 entonces no va a ser valido y si eligio un numero mayor al tamanio de la lista daria error asi que lo evitamos
                 print("Error, opcion no valida!")
@@ -193,7 +193,7 @@ def publicarUnaReceta():
             print("Ingredientes: ")
             ingrediente_nro = 1
             for ingrediente in ingredientes:
-                print(f"    Ingrediente {ingrediente_nro}: {ingrediente} ✅")
+                print(f"    Ingrediente {ingrediente_nro}: {ingrediente['nombre'].capitalize()} {ingrediente['cantidad']} ✅")
                 ingrediente_nro += 1
         else:
             print("Ingredientes: Esperando ingredientes...")
@@ -201,28 +201,52 @@ def publicarUnaReceta():
             print("Instrucciones: ")
             paso = 1
             for instruccion in instrucciones:
-                print(f"    Paso {paso}: {instruccion} ✅")
+                print(f"    Paso {paso}: {instruccion.capitalize()} ✅")
                 paso += 1
         else:
             print("Instrucciones: Esperando instrucciones...")
-        print(f"Tiempo de coccion: {tiempoCoccion} ✅" if tiempoCoccion else "Tiempo de coccion: Esperando tiempo de coccion...")
+        print(f"Tiempo de coccion: {tiempoCoccion} minutos ✅" if tiempoCoccion else "Tiempo de coccion: Esperando tiempo de coccion...")
         print(f"Dificultad: {dificultad} ✅" if dificultad else "Dificultad: Esperando dificultad...")
         print(f"Tipo de cocina: {tipoCocina.capitalize()} ✅" if tipoCocina else "Tipo de cocina: Esperando tipo de cocina...")
         print("========================================\n") 
         if titulo is None:
-            titulo = input("Escribe tu titulo: ")
+            while True:
+                titulo = input("Escribe tu titulo: ")
+                if len(titulo.strip()) < 3:
+                    print("Tu titulo no puede tener menos de 3 letras!") # no puede estar vacio porque es required: true en mongo y ademas preferimos que sea mayor a 3 letras para que no se pueda ingresar cualquier cosa
+                    sleep(1.5)
+                    borrar_ultima_linea()
+                    borrar_ultima_linea()
+                else:
+                    break
         elif descripcion is None:
-            descripcion = input("Escribe una descripcion: ")
+            while True:
+                descripcion = input("Escribe una descripcion: ")
+                if len(descripcion.strip()) < 25:
+                        print("Tu descripcion no puede tener menos de 25 letras!")  # no puede estar vacio porque es required: true en mongo y ademas preferimos que sea mayor a 20 letras para que el usuario se vea obligado a dar informacion de la receta (aunque puede spammear letras random, pero se entiende la idea)
+                        sleep(1.5)
+                        borrar_ultima_linea()
+                        borrar_ultima_linea()
+                else:
+                    break
         elif ingredientes is None:
-            print("Escribe tus ingredientes (uno por uno).")
+            print("Escribe tus ingredientes y su cantidad (uno por uno).")
             print("Cuando termines, presiona Enter sin escribir nada.\n")
             ingredientes_lista = []
 
             while True:
-                paso = input(f"Ingrediente {len(ingredientes_lista) + 1}: ")
-                if paso.strip() == "": # si toca enter y no escribio nada entonces se sale del loop y se pasa al siguiente elemento
-                    break  
-                ingredientes_lista.append(paso.strip())
+                ingrediente = input(f"Ingrediente {len(ingredientes_lista) + 1}: ")
+                if ingrediente: # solo si el usuario ingresa un ingrediente nos molestamos por preguntar la cantidad, sino no es necesario
+                    cantidad = input("  Cantidad: ")
+                if ingrediente.strip() == "" and len(ingredientes_lista) < 1: # si toca enter y no escribio nada entonces se sale del loop y se pasa al siguiente elemento
+                    print("Tu receta tiene que tener al menos 1 ingrediente!")
+                    sleep(1.5)
+                    borrar_ultima_linea()
+                    borrar_ultima_linea()
+                elif ingrediente.strip() == "":
+                    break
+                else:
+                    ingredientes_lista.append({"nombre": ingrediente.strip().lower(), "cantidad": cantidad.strip().capitalize()})
             ingredientes = ingredientes_lista  
         elif instrucciones is None:
             print("Escribe los pasos de la receta uno por uno.")
@@ -231,16 +255,22 @@ def publicarUnaReceta():
 
             while True:
                 paso = input(f"Paso {len(pasos) + 1}: ")
-                if paso.strip() == "": # si toca enter y no escribio nada entonces se sale del loop y se pasa al siguiente elemento
-                    break  
-                pasos.append(paso.strip())
+                if paso.strip() == "" and len(pasos) < 1: # si toca enter y no escribio nada en el input, pero ademas nunca ingreso un paso entonces se mantiene dentro del loop
+                    print("Tu receta tiene que tener al menos 1 paso!")
+                    sleep(1.5)
+                    borrar_ultima_linea()
+                    borrar_ultima_linea()
+                elif paso.strip() == "": # si ya ingreso algo en los pasos y esta vez solo toco enter se sale del loop y se pasa al siguiente elemento
+                    break
+                else: 
+                    pasos.append(paso.strip().capitalize())
 
-            instrucciones = pasos  # ahora lo guardás en la variable principal
+            instrucciones = pasos  
         elif tiempoCoccion is None:
             while True:
                 tiempoCoccion = input("Escribe el tiempo de coccion en minutos: ")
                 if es_integer(tiempoCoccion):
-                    int(tiempoCoccion)
+                    int(tiempoCoccion) # lo convertimos a int porque en mongo es type: Number
                     break
                 else:
                     print("Error, ingresa un numero!")
@@ -249,15 +279,15 @@ def publicarUnaReceta():
                     borrar_ultima_linea()
         elif dificultad is None:
             while True:
-                dificultad = input("Elige una dificultad [1 - Facil, 2 - Intermedio, 3 - Dificil): ")
+                dificultad = input("Elige una dificultad [1 - Facil, 2 - Intermedio, 3 - Dificil]: ")
                 match dificultad:
-                    case 1:
+                    case "1":
                         dificultad = "Facil"
                         break
-                    case 2: 
+                    case "2": 
                         dificultad = "Intermedio"
                         break
-                    case 3: 
+                    case "3": 
                         dificultad = "Dificil"
                         break
                     case _:
@@ -268,26 +298,43 @@ def publicarUnaReceta():
         elif tipoCocina is None:
             tipoCocina = input("Ingresa el tipo de cocina: ")
         else:
-            eleccion = input("Presiona enter para enviar --> ")
-        if eleccion != None:
-            data_receta = {
-                
-            }
-            print("Enviando...")
-            sleep(1)
-            # requests.post(URL_BASE)
-            print("Enviado! ✅")
-            sleep(1)
-            break
+            eleccion = input("Presiona enter para enviar o ingresa 0 para cancelar --> ")
+            if eleccion != "0":
+                data_receta = {
+                    "titulo": titulo.capitalize(),
+                    "descripcion": descripcion.capitalize(),
+                    "autorId": idUsuarioActual,
+                    "ingredientes": ingredientes,
+                    "instrucciones": instrucciones,
+                    "tiempoCoccion": tiempoCoccion,
+                    "dificultad": dificultad,
+                    "tipoCocina": tipoCocina
+                }
+                print("Enviando...")
+                sleep(1)
+                receta = requests.post(URL_BASE + "/recetas/crearReceta", json=data_receta)
+                receta.json() # convertimos los datos de l areceta a json 
+                recetasLocal.append(receta) # y los agregamos al registro local de recetas para poder usarlo en las otras operaciones
+                print("Enviado! ✅")
+                sleep(1)
+                break
+            else:
+                print("Cancelando...")
+                sleep(1)
+                print("Cancelado! ☹️")
+                sleep(1)
+                break
 
 def buscarRecetaPorIngrediente():
     global recetasLocal
     clear_terminal()
     print("---Buscar receta por ingrediente---")
     ingrediente = input("Ingresa el ingrediente: ")
-    recetas = requests.get(URL_BASE + "/recetas/buscar/" + ingrediente)
+    recetas = requests.get(URL_BASE + "/recetas/buscar/" + ingrediente.lower())
     if recetas.status_code == 200:
         datos = recetas.json()
+        print("DATOS DE COSO: ", datos)
+        input("")
         if datos:
             printRecetas(datos, ingrediente) # en esta funcion se agregar los datos a la lista local y se muestran ordenados en la terminal
             recetaElegida = input("Ingresa el numero de una receta para verla en detalle o 0 para salir: ")

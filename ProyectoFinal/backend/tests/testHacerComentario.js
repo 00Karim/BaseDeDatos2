@@ -23,7 +23,7 @@ async function probarComentar(){
         ],
         instrucciones: ["Paso 1...", "Paso 2..."],
         tiempoCoccion: 200,
-        dificultad: "Fácil",
+        dificultad: "Facil",
         tipoCocina: "Española"
     });
 

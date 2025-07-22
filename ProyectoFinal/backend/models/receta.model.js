@@ -5,9 +5,23 @@ const mongoose = require('mongoose')
 class RecetaModelo{
     crearReceta = async(titulo, descripcion, autorId, ingredientes, instrucciones, tiempoCoccion, dificultad, tipoCocina) => {
         try {
-            
-        } catch (error) {
-            
+            const receta = await Receta.create({
+                titulo, 
+                descripcion, 
+                autorId, 
+                ingredientes, 
+                instrucciones, 
+                tiempoCoccion, 
+                dificultad, 
+                tipoCocina
+                // los likes son por default 0 cuando se crea una nueva receta
+                // la fecha se inserta automaticamente gracias a la funcion Date.now de mongoose
+            });
+            return receta;
+        } 
+        catch (error) {
+            console.log('Error al publicar la receta:', error.message);
+            throw error;
         }
     }
 

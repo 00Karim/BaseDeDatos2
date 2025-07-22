@@ -7,8 +7,8 @@ class ComentarioModel{
             const recetaObjId = new mongoose.Types.ObjectId(recetaId);
             const autorObjId = new mongoose.Types.ObjectId(autorId);
             const comentario = await Comentario.create({
-                recetaId: recetaObjId,
-                autorId: autorObjId,
+                recetaId,
+                autorId,
                 texto: texto,
                 calificacion: calificacion
                 // la fecha se inserta automaticamente gracias a la funcion Date.now de mongoose

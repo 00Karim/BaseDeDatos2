@@ -25,7 +25,7 @@ async function probarModelos(){
             ],
             instrucciones: ["Paso 1...", "Paso 2..."],
             tiempoCoccion: 45,
-            dificultad: "Media",
+            dificultad: "Intermedio",
             tipoCocina: "Española"
         });
 

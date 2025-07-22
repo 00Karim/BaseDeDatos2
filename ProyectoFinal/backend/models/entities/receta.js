@@ -30,12 +30,13 @@ const estructuraReceta = new mongoose.Schema({
     },
     dificultad: {
         type: String,
-        enum: ['Fácil', 'Media', 'Difícil'],
-        default: 'Media'
+        enum: ['Facil', 'Intermedio', 'Dificil'], //saque los tildes porque no tengo tildes y daba error
+        default: 'Intermedio'
     },
     tipoCocina: {
         type: String,
-        required: true
+        required: true,
+        default: 'No especifica'
     },
     likes: {
         type: Number,
