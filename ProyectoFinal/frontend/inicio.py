@@ -174,8 +174,111 @@ def comentar(id_receta):
          
 
 def publicarUnaReceta():
+    eleccion = None
+    titulo = None
+    descripcion = None
+    ingredientes = None
+    instrucciones = None
+    tiempoCoccion = None 
+    dificultad = None
+    tipoCocina = None
     print("---Publicar una receta---")
-    sleep(5)
+    clear_terminal()
+    while True:
+        clear_terminal()
+        print("========================================")
+        print(f"Titulo: {titulo.capitalize()} ✅" if titulo else "Titulo: Esperando titulo...")
+        print(f"Descripcion: {descripcion.capitalize()} ✅" if descripcion else "Descripcion: Esperando calificacion...")
+        if(ingredientes):
+            print("Ingredientes: ")
+            ingrediente_nro = 1
+            for ingrediente in ingredientes:
+                print(f"    Ingrediente {ingrediente_nro}: {ingrediente} ✅")
+                ingrediente_nro += 1
+        else:
+            print("Ingredientes: Esperando ingredientes...")
+        if(instrucciones):
+            print("Instrucciones: ")
+            paso = 1
+            for instruccion in instrucciones:
+                print(f"    Paso {paso}: {instruccion} ✅")
+                paso += 1
+        else:
+            print("Instrucciones: Esperando instrucciones...")
+        print(f"Tiempo de coccion: {tiempoCoccion} ✅" if tiempoCoccion else "Tiempo de coccion: Esperando tiempo de coccion...")
+        print(f"Dificultad: {dificultad} ✅" if dificultad else "Dificultad: Esperando dificultad...")
+        print(f"Tipo de cocina: {tipoCocina.capitalize()} ✅" if tipoCocina else "Tipo de cocina: Esperando tipo de cocina...")
+        print("========================================\n") 
+        if titulo is None:
+            titulo = input("Escribe tu titulo: ")
+        elif descripcion is None:
+            descripcion = input("Escribe una descripcion: ")
+        elif ingredientes is None:
+            print("Escribe tus ingredientes (uno por uno).")
+            print("Cuando termines, presiona Enter sin escribir nada.\n")
+            ingredientes_lista = []
+
+            while True:
+                paso = input(f"Ingrediente {len(ingredientes_lista) + 1}: ")
+                if paso.strip() == "": # si toca enter y no escribio nada entonces se sale del loop y se pasa al siguiente elemento
+                    break  
+                ingredientes_lista.append(paso.strip())
+            ingredientes = ingredientes_lista  
+        elif instrucciones is None:
+            print("Escribe los pasos de la receta uno por uno.")
+            print("Cuando termines, presiona Enter sin escribir nada.\n")
+            pasos = []
+
+            while True:
+                paso = input(f"Paso {len(pasos) + 1}: ")
+                if paso.strip() == "": # si toca enter y no escribio nada entonces se sale del loop y se pasa al siguiente elemento
+                    break  
+                pasos.append(paso.strip())
+
+            instrucciones = pasos  # ahora lo guardás en la variable principal
+        elif tiempoCoccion is None:
+            while True:
+                tiempoCoccion = input("Escribe el tiempo de coccion en minutos: ")
+                if es_integer(tiempoCoccion):
+                    int(tiempoCoccion)
+                    break
+                else:
+                    print("Error, ingresa un numero!")
+                    sleep(1.5)
+                    borrar_ultima_linea()
+                    borrar_ultima_linea()
+        elif dificultad is None:
+            while True:
+                dificultad = input("Elige una dificultad [1 - Facil, 2 - Intermedio, 3 - Dificil): ")
+                match dificultad:
+                    case 1:
+                        dificultad = "Facil"
+                        break
+                    case 2: 
+                        dificultad = "Intermedio"
+                        break
+                    case 3: 
+                        dificultad = "Dificil"
+                        break
+                    case _:
+                        print("Error, ingresa 1, 2, o 3!")
+                        sleep(1.5)
+                        borrar_ultima_linea()
+                        borrar_ultima_linea()
+        elif tipoCocina is None:
+            tipoCocina = input("Ingresa el tipo de cocina: ")
+        else:
+            eleccion = input("Presiona enter para enviar --> ")
+        if eleccion != None:
+            data_receta = {
+                
+            }
+            print("Enviando...")
+            sleep(1)
+            # requests.post(URL_BASE)
+            print("Enviado! ✅")
+            sleep(1)
+            break
 
 def buscarRecetaPorIngrediente():
     global recetasLocal
