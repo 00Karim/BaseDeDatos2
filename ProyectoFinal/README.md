@@ -9,8 +9,8 @@
 ### Descripción
 Plataforma donde usuarios comparten recetas, las califican y comentan.
 
-**-El proyecto fue desarrollado usando Node.js con Mongoose**
-**-La interfaz principal es una API REST**
+-El proyecto fue desarrollado usando Node.js con Mongoose
+-La interfaz principal es una API REST**
 
 ### Como iniciar la app
 Para iniciar la app hay que darle permisos de ejecucion al archivo iniciar.sh y luego ejecutarlo --> Esto va a hacer que se cree un contenedor de Docker que contiene el backend y luego se va a ejecutar por separado un comando que permite que usemos la terminal de nuestra computadora para ver la salida del archivo ejecutado (inicio.py). Asi podemos ejecutar la UI y el back todo junto de manera simple. Se hizo asi porque dentro de docker no se puede usar una terminal aparentemente.
